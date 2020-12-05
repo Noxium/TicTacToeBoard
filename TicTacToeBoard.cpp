@@ -19,7 +19,8 @@ TicTacToeBoard::TicTacToeBoard()
 **/
 Piece TicTacToeBoard::toggleTurn()
 {
-  return Invalid;
+  turn = (turn == X) ? O : X;
+  return turn;
 }
 
 /**
@@ -33,7 +34,20 @@ Piece TicTacToeBoard::toggleTurn()
 **/ 
 Piece TicTacToeBoard::placePiece(int row, int column)
 {
-  return Invalid;
+  if(row > BOARDSIZE-1 || column > BOARDSIZE-1 || row < 0 || column < 0) {
+    return Invalid;
+  }
+  Piece temp = getPiece(row, column);
+  if(temp != Blank) {
+    return temp;
+  }
+  temp = turn;
+  board[row][column] = turn;
+  if(getWinner() != Invalid) {
+    return getWinner();
+  }
+  toggleTurn();
+  return temp;
 }
 
 /**
@@ -42,7 +56,10 @@ Piece TicTacToeBoard::placePiece(int row, int column)
 **/
 Piece TicTacToeBoard::getPiece(int row, int column)
 {
-  return Invalid;
+  if(row > BOARDSIZE-1 || column > BOARDSIZE-1 || row < 0 || column < 0) {
+    return Invalid;
+  }
+  return board[row][column];
 }
 
 /**
@@ -51,5 +68,54 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
+  int num_X_horiz = 0;
+  int num_O_horiz = 0;
+  int num_X_vert = 0;
+  int num_O_vert = 0;
+  int num_X_diag_neg = 0;
+  int num_O_diag_neg = 0;
+  int num_X_diag_pos = 0;
+  int num_O_diag_pos = 0;
+  for(int i = 0; i < BOARDSIZE; i++) {
+    num_X_horiz = num_O_horiz = num_X_vert = num_O_vert = 0;
+    for(int j = 0; j < BOARDSIZE; j++) {
+      if(board[i][j] == X) {
+        num_X_horiz++;
+      }
+      if(board[i][j] == O) {
+        num_O_horiz++;
+      }
+      if(board[j][i] == X) {
+        num_X_vert++;
+      }
+      if(board[j][i] == O) {
+        num_O_vert++;
+      }
+    }
+    if(num_X_horiz == BOARDSIZE || num_X_vert == BOARDSIZE) {
+      return X;
+    }
+    if(num_O_horiz == BOARDSIZE || num_O_vert == BOARDSIZE) {
+      return O;
+    }
+    if(board[i][i] == X) {
+      num_X_diag_neg++;
+    }
+    if(board[i][i] == O) {
+      num_O_diag_neg++;
+    }
+    if(board[BOARDSIZE - 1 - i][i] == X) {
+      num_X_diag_pos++;
+    }
+    if(board[BOARDSIZE - 1 - i][i] == O) {
+      num_O_diag_pos++;
+    }
+  }
+  if(num_X_diag_neg == BOARDSIZE || num_X_diag_pos == BOARDSIZE) {
+    return X;
+  }
+  if(num_O_diag_neg == BOARDSIZE || num_O_diag_pos == BOARDSIZE) {
+    return O;
+  }
   return Invalid;
 }
