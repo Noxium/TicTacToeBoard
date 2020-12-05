@@ -262,3 +262,112 @@ TEST(TicTacToeBoardTest, OWinDiagPos)
 	ASSERT_TRUE(out == O);
 }
 
+
+TEST(TicTacToeBoardTest, XWinHoriz_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 0); // X
+    tttb.placePiece(1, 0); // O
+    tttb.placePiece(0, 1); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(0, 2); // X
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == O);
+}
+
+TEST(TicTacToeBoardTest, OWinHoriz_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 0); // X
+    tttb.placePiece(1, 0); // O
+    tttb.placePiece(2, 1); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(2, 2); // X
+    tttb.placePiece(1, 2); // O
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == X);
+}
+
+TEST(TicTacToeBoardTest, XWinVert_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 0); // X
+    tttb.placePiece(0, 1); // O
+    tttb.placePiece(1, 0); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(2, 0); // X
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == O);
+}
+
+TEST(TicTacToeBoardTest, OWinVert_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 2); // X
+    tttb.placePiece(0, 1); // O
+    tttb.placePiece(1, 0); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(2, 0); // X
+    tttb.placePiece(2, 1); // O
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == X);
+}
+
+TEST(TicTacToeBoardTest, XWinDiagNeg_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 0); // X
+    tttb.placePiece(0, 1); // O
+    tttb.placePiece(1, 1); // X
+    tttb.placePiece(1, 0); // O
+    tttb.placePiece(2, 2); // X
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == O);
+}
+
+TEST(TicTacToeBoardTest, OWinDiagNeg_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 1); // X
+    tttb.placePiece(0, 0); // O
+    tttb.placePiece(1, 2); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(2, 1); // X
+    tttb.placePiece(2, 2); // O
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == X);
+}
+
+TEST(TicTacToeBoardTest, XWinDiagPos_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(2, 0); // X
+    tttb.placePiece(0, 1); // O
+    tttb.placePiece(1, 1); // X
+    tttb.placePiece(1, 0); // O
+    tttb.placePiece(0, 2); // X
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == O);
+}
+
+TEST(TicTacToeBoardTest, OWinDiagPos_False)
+{
+	TicTacToeBoard tttb;
+    Piece out;
+    tttb.placePiece(0, 1); // X
+    tttb.placePiece(2, 0); // O
+    tttb.placePiece(1, 2); // X
+    tttb.placePiece(1, 1); // O
+    tttb.placePiece(2, 1); // X
+    tttb.placePiece(0, 2); // O
+    out = tttb.getWinner();
+	ASSERT_FALSE(out == X);
+}
+
