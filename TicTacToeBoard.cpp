@@ -1,4 +1,5 @@
 #include "TicTacToeBoard.h"
+#include <iostream>
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -43,8 +44,9 @@ Piece TicTacToeBoard::placePiece(int row, int column)
   }
   temp = turn;
   board[row][column] = turn;
-  if(getWinner() != Invalid) {
-    return getWinner();
+  Piece tempWinner = getWinner();
+  if(tempWinner != Invalid) {
+    return tempWinner;
   }
   toggleTurn();
   return temp;
@@ -68,6 +70,7 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
+  int total_pieces_on_board = 0;
   int num_X_horiz = 0;
   int num_O_horiz = 0;
   int num_X_vert = 0;
@@ -79,16 +82,19 @@ Piece TicTacToeBoard::getWinner()
   for(int i = 0; i < BOARDSIZE; i++) {
     num_X_horiz = num_O_horiz = num_X_vert = num_O_vert = 0;
     for(int j = 0; j < BOARDSIZE; j++) {
-      if(board[i][j] == X) {
+      if(getPiece(i, j) != Blank) {
+        total_pieces_on_board++;
+      }
+      if(getPiece(i, j) == X) {
         num_X_horiz++;
       }
-      if(board[i][j] == O) {
+      if(getPiece(i, j) == O) {
         num_O_horiz++;
       }
-      if(board[j][i] == X) {
+      if(getPiece(j, i) == X) {
         num_X_vert++;
       }
-      if(board[j][i] == O) {
+      if(getPiece(j, i) == O) {
         num_O_vert++;
       }
     }
@@ -98,16 +104,16 @@ Piece TicTacToeBoard::getWinner()
     if(num_O_horiz == BOARDSIZE || num_O_vert == BOARDSIZE) {
       return O;
     }
-    if(board[i][i] == X) {
+    if(getPiece(i, i) == X) {
       num_X_diag_neg++;
     }
-    if(board[i][i] == O) {
+    if(getPiece(i, i) == O) {
       num_O_diag_neg++;
     }
-    if(board[BOARDSIZE - 1 - i][i] == X) {
+    if(getPiece(BOARDSIZE - 1 - i, i) == X) {
       num_X_diag_pos++;
     }
-    if(board[BOARDSIZE - 1 - i][i] == O) {
+    if(getPiece(BOARDSIZE - 1 - i, i) == O) {
       num_O_diag_pos++;
     }
   }
@@ -116,6 +122,10 @@ Piece TicTacToeBoard::getWinner()
   }
   if(num_O_diag_neg == BOARDSIZE || num_O_diag_pos == BOARDSIZE) {
     return O;
+  }
+
+  if(total_pieces_on_board == BOARDSIZE * 3) {
+    return Blank;
   }
   return Invalid;
 }
